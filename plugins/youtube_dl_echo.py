@@ -268,7 +268,7 @@ async def echo(bot, update):
             if response_json["thumbnail"] is not None:
                 thumbnail = response_json["thumbnail"]
                 thumbnail_image = response_json["thumbnail"]
-        thumb_image_path = DownLoadFile(
+        thumb_image_path = await DownLoadFile(
             thumbnail_image,
             Config.DOWNLOAD_LOCATION + "/" +
             str(update.from_user.id) + ".webp",
