@@ -64,16 +64,20 @@ def TimeFormatter(milliseconds: int) -> str:
         ((str(milliseconds) + "ms, ") if milliseconds else "")
     return tmp[:-2]
 
-def DownLoadFile(url, file_name):
+async def DownLoadFile(url, file_name, client, ud_type, message, start_time, progress_for_pyrogram):
     try:
         if "placeholder.com" in url:
             logger.warning("Skipping placeholder.com URL")
             return None
         r = requests.get(url, allow_redirects=True, stream=True)
+        total_size = int(r.headers.get('content-length', 0))
+        downloaded = 0
         with open(file_name, "wb") as fd:
             for chunk in r.iter_content(chunk_size=1024):
                 if chunk:
                     fd.write(chunk)
+                    downloaded += len(chunk)
+                    await progress_for_pyrogram(downloaded, total_size, ud_type, message, start_time)
         return file_name
     except requests.exceptions.ConnectionError as e:
         logger.warning(f"Failed to download {url}: {e}")
