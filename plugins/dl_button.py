@@ -78,7 +78,7 @@ async def ddl_call_back(bot, update):
     await bot.edit_message_text(
         text=Translation.DOWNLOAD_START,
         chat_id=update.message.chat.id,
-        message_id=update.message.message_id
+        message_id=update.id
     )
     tmp_directory_for_each_user = Config.DOWNLOAD_LOCATION + "/" + str(update.from_user.id)
     if not os.path.isdir(tmp_directory_for_each_user):
@@ -94,14 +94,14 @@ async def ddl_call_back(bot, update):
                 youtube_dl_url,
                 download_directory,
                 update.message.chat.id,
-                update.message.message_id,
+                update.id,
                 c_time
             )
         except asyncio.TimeOutError:
             await bot.edit_message_text(
                 text=Translation.SLOW_URL_DECED,
                 chat_id=update.message.chat.id,
-                message_id=update.message.message_id
+                message_id=update.id
             )
             return False
     if os.path.exists(download_directory):
@@ -109,7 +109,7 @@ async def ddl_call_back(bot, update):
         await bot.edit_message_text(
             text=Translation.UPLOAD_START,
             chat_id=update.message.chat.id,
-            message_id=update.message.message_id
+            message_id=update.id
         )
         file_size = Config.TG_MAX_FILE_SIZE + 1
         try:
@@ -122,7 +122,7 @@ async def ddl_call_back(bot, update):
             await bot.edit_message_text(
                 chat_id=update.message.chat.id,
                 text=Translation.RCHD_TG_API_LIMIT,
-                message_id=update.message.message_id
+                message_id=update.id
             )
         else:
             # get the correct width, height, and duration for videos greater than 10MB
@@ -244,14 +244,14 @@ async def ddl_call_back(bot, update):
             await bot.edit_message_text(
                 text=Translation.AFTER_SUCCESSFUL_UPLOAD_MSG_WITH_TS.format(time_taken_for_download, time_taken_for_upload),
                 chat_id=update.message.chat.id,
-                message_id=update.message.message_id,
+                message_id=update.id,
                 disable_web_page_preview=True
             )
     else:
         await bot.edit_message_text(
             text=Translation.NO_VOID_FORMAT_FOUND.format("Incorrect Link"),
             chat_id=update.message.chat.id,
-            message_id=update.message.message_id,
+            message_id=update.id,
             disable_web_page_preview=True
         )
 
