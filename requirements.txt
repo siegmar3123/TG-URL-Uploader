@@ -9,3 +9,4 @@ tgcrypto
 youtube-dl
 olefile
 flask
+curl_cffi
