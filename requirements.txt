@@ -10,3 +10,4 @@ youtube-dl
 olefile
 flask
 curl_cffi
+yt-dlp
